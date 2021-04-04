@@ -1,6 +1,5 @@
-var fs= require("fs");
-var data = fs.readFileSync(__dirname+ "/excelData.xlsx", "utf8");
-console.log(data);
-var data2 = fs.readFile(__dirname+"/excelData.xlsx", "utf8", function(err, data){
-    console.log(data);
-});
+const xlsx= require("xlsx");
+const path = require("path");
+var wb= xlsx.readFile(path.join(__dirname +"/public/uploads/file.xlsx"));
+console.log(path.join(__dirname +"/public/uploads/file.xlsx"));
+console.log(wb.SheetNames);
