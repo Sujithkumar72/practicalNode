@@ -52,7 +52,6 @@ app.listen(3000, function () {
 
 app.get("/", function(req, res){
 
-
     res.render("home");
 });
 
@@ -70,14 +69,20 @@ app.post("/upload", function(req, res){
             } else {
                 res.render("home", {
                     msg: "File Uploaded",
-                    file: `uploads/${req.file.filename}`
+                    file: `uploads/${req.file.filename}`,
+                    hidden: ""
+                   
                 });
             }
         }
     });
-    var wb= xlsx.readFile(path.join(__dirname +"/public/uploads/file.xlsx"));
-    console.log(path.join(__dirname +"/public/uploads/file.xlsx"));
-    console.log(wb.SheetNames);
 
+
+    
 });
 
+app.get("/process", function(req,res){
+    var wb= xlsx.readFile(path.join(__dirname +"/public/uploads/file.xlsx"));
+    // console.log(path.join(__dirname +"/public/uploads/file.xlsx"));
+    console.log(wb.SheetNames);
+})

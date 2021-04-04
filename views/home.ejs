@@ -2,14 +2,22 @@
 <div class="container" id="header">
 <h1> Welcome to Excel Extract</h1>
 </div>
-
+<% let hidden; %>
 <div class="container" id="uploadForm">
     <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" class="form-control" name="file">
-        <p id="error"><%= typeof msg != "undefined" ? msg : " " %></p><br/>
-        <button type="submit" value="upload" class="btn btn-lg btn-primary">Submit</button>
+        <input type="file" class="form-control" name="file" required>
+        <%= typeof msg != "undefined" ? msg : " " %><br/>
+        <button type="submit" value="upload" id="submit"class="btn btn-lg btn-primary">Submit</button>
+        
     <form>
-</div>
 
+</div>
+<br/>
+<div class="container">
+    <form action="/process" method="post">
+        <input class="d-none">
+        <button type="submit" class="btn btn-lg btn-warning " style="visibility:<%=hidden%>" id="extract">Process File</button>
+    </form>
+</div>
 
 <%- include("./partials/footer") %>
