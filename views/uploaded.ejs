@@ -4,11 +4,13 @@
 </div>
 
 <div class="container" id="uploadForm">
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <h3>File Uploaded</h3>
-
-        <button type="submit" value="upload" id="submit"class="btn btn-lg btn-primary disabled">Submit</button>
-
+    <form action="/process" method="post" enctype="multipart/form-data">
+        <h3>Source File Uploaded</h3>
+        <label for="">Select  the input file</label>
+        <input name="input" class="form-control" type="file">
+        <%= typeof msg != "undefined" ? msg : " " %><br/>
+        <button class="btn btn-lg btn-primary disabled">Submit</button>
+        <button type="submit" class="btn btn-lg btn-primary">Extract</button>
     <form>
 </div>
 

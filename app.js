@@ -39,7 +39,7 @@ const upload = multer({
 function checkFileType(file,cb){
     // const fileTypes = /xls|xlsx/;
     const fileExtfind = path.extname(file.originalname).toLowerCase();
-    if(fileExtfind === ".xls" || fileExtfind ===".xlsx"){
+    if(fileExtfind ===".xlsx"){
         return cb(null, true);
     } else {
         cb("Error: Excel Files Only");
@@ -51,7 +51,6 @@ app.listen(3000, function () {
 });
 
 app.get("/", function(req, res){
-
     res.render("home");
 });
 
@@ -71,18 +70,36 @@ app.post("/upload", function(req, res){
                     msg: "File Uploaded",
                     file: `uploads/${req.file.filename}`,
                     hidden: ""
+                });
+            }
+        }
+    });
+    console.log("upload success");
+});
+
+app.get("/process", function(req,res){
+    res.render("uploaded");
+})
+
+app.post("/process", function(req,res){
+    upload(req, res, function(err){
+        if(err){
+            res.render("uploaded", {msg:err});
+        } else {
+            if(req.file == undefined){
+                res.render("uploaded", {
+                    msg: "Error: No file selected"
+                });
+            } else {
+                res.render("uploaded", {
+                    msg: "File Uploaded",
+                    file: `uploads/${req.file.filename}`
                    
                 });
             }
         }
     });
-
-
-    
-});
-
-app.get("/process", function(req,res){
     var wb= xlsx.readFile(path.join(__dirname +"/public/uploads/file.xlsx"));
     // console.log(path.join(__dirname +"/public/uploads/file.xlsx"));
     console.log(wb.SheetNames);
-})
+});
