@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 var xlsx = require("xlsx");
 const multer = require('multer');
 const path = require("path");
+const readline = require("readline");
 
 const app = express();
 app.set("view engine", "ejs");
@@ -39,10 +40,10 @@ const upload = multer({
 function checkFileType(file,cb){
     // const fileTypes = /xls|xlsx/;
     const fileExtfind = path.extname(file.originalname).toLowerCase();
-    if(fileExtfind ===".xlsx"){
+    if(fileExtfind ===".xlsx"| fileExtfind ===".csv"|fileExtfind ===".csv"){
         return cb(null, true);
     } else {
-        cb("Error: Excel Files Only");
+        cb("supported file formats xlsx & pdf only");
     }
 }
 
@@ -59,14 +60,14 @@ app.get("/", function(req, res){
 app.post("/upload", function(req, res){
     upload(req, res, function(err){
         if(err){
-            res.render("home", {msg:err});
+            res.render("uploaded", {msg:err});
         } else {
             if(req.file == undefined){
-                res.render("home", {
+                res.render("uploaded", {
                     msg: "Error: No file selected"
                 });
             } else {
-                res.render("home", {
+                res.render("uploaded", {
                     msg: "File Uploaded",
                     file: `uploads/${req.file.filename}`,
                     hidden: ""
@@ -81,25 +82,27 @@ app.get("/process", function(req,res){
     res.render("uploaded");
 })
 
-app.post("/process", function(req,res){
+app.post("/pdfUpload", function(req,res){
     upload(req, res, function(err){
         if(err){
-            res.render("uploaded", {msg:err});
+            res.render("extract", {msg:err});
         } else {
             if(req.file == undefined){
-                res.render("uploaded", {
+                res.render("extract", {
                     msg: "Error: No file selected"
                 });
             } else {
-                res.render("uploaded", {
+                res.render("extract", {
                     msg: "File Uploaded",
                     file: `uploads/${req.file.filename}`
-                   
                 });
             }
         }
     });
+});
+
+app.post("/process", function(req,res){
     var wb= xlsx.readFile(path.join(__dirname +"/public/uploads/file.xlsx"));
     // console.log(path.join(__dirname +"/public/uploads/file.xlsx"));
-    console.log(wb.SheetNames);
+    for(wb.SheetNames);
 });
