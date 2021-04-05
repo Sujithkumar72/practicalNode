@@ -3,15 +3,27 @@ const fs= require("fs");
 var wb= xlsx.readFile("example.xlsx");
 let wbs = wb.SheetNames;
 // console.log(wb.SheetNames);
-// var ws=wb.Sheets["NAME"];
+var ws=wb.Sheets["Fori Gen"];
 // console.log(ws);
-let ws;
-let dataArray = [];
-wbs.forEach(wbk => {
-    let xlData = wb.Sheets[wbk];
-    dataArray.push(xlData);
-});
-fs.writeFile("data.txt", dataArray, (err)=>{
+// let ws;
+let sheetData = xlsx.utils.sheet_to_json(ws);
+var newWb = xlsx.utils.book_new;
+var newWs =xlsx.utils.json_to_sheet(sheetData);
+xlsx.utils.book_append_sheet(newWb,newWs,"NewDatta");
+xlsx.writeFile(newWb, "NewExcel.xlsx");
+
+
+// console.log(sheetData);
+// wbs.forEach(wbk => {
+//     let xlData = wb.Sheets[wbk];
+//     dataArray.push(xlData);
+// });
+// console.log(wbs);
+
+// wbs.forEach((wwb)=>{
+//     console.log(wwb);
+// });
+fs.writeFile("data.txt", sheetData, (err)=>{
     if(err){
         console.log(err);
     } else{
